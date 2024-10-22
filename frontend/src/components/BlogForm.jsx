@@ -1,0 +1,65 @@
+import { useState } from 'react'
+
+const blogForm = ({ createBlog }) => {
+    const [title, setTitle] = useState('') 
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const addBlog = (event) => {
+        event.preventDefault()
+        
+        createBlog ({
+          title: title,
+          author: author,
+          url: url,
+        })
+      
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+    }
+
+    return (
+    <>
+      <h3>Add new blog to the list</h3>
+      <form onSubmit={addBlog}>
+        <div className="form-group">
+            <label htmlFor="title">Title:</label>
+            <input
+            type="text"
+            id="title"
+            value={title}
+            name="title"
+            onChange={event => setTitle(event.target.value)}
+            />
+        </div>
+
+        <div className="form-group">
+            <label htmlFor="author">Author:</label>
+            <input
+            type="text"
+            id="author"
+            value={author}
+            name="author"
+            onChange={event => setAuthor(event.target.value)}
+            />
+        </div>
+
+        <div className="form-group">
+            <label htmlFor="url">URL:</label>
+            <input
+            type="text"
+            id="url"
+            value={url}
+            name="url"
+            onChange={event => setUrl(event.target.value)}
+            />
+        </div>
+        <p></p>
+        <button type="submit">Create</button>
+    </form>  
+    </>
+  )
+}
+
+export default blogForm
