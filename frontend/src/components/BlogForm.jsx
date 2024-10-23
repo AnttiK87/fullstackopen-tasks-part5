@@ -1,65 +1,70 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const blogForm = ({ createBlog }) => {
-    const [title, setTitle] = useState('') 
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
+const BlogForm = ({ createBlog }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
-    const addBlog = (event) => {
-        event.preventDefault()
-        
-        createBlog ({
-          title: title,
-          author: author,
-          url: url,
-        })
-      
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-    }
+  const addBlog = (event) => {
+    event.preventDefault()
 
-    return (
-    <>
+    createBlog ({
+      title: title,
+      author: author,
+      url: url,
+    })
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
+  return (
+    <div>
       <h3>Add new blog to the list</h3>
       <form onSubmit={addBlog}>
         <div className="form-group">
-            <label htmlFor="title">Title:</label>
-            <input
+          <label htmlFor="title">Title:</label>
+          <input
             type="text"
             id="title"
             value={title}
             name="title"
             onChange={event => setTitle(event.target.value)}
-            />
+          />
         </div>
 
         <div className="form-group">
-            <label htmlFor="author">Author:</label>
-            <input
+          <label htmlFor="author">Author:</label>
+          <input
             type="text"
             id="author"
             value={author}
             name="author"
             onChange={event => setAuthor(event.target.value)}
-            />
+          />
         </div>
 
         <div className="form-group">
-            <label htmlFor="url">URL:</label>
-            <input
+          <label htmlFor="url">URL:</label>
+          <input
             type="text"
             id="url"
             value={url}
             name="url"
             onChange={event => setUrl(event.target.value)}
-            />
+          />
         </div>
         <p></p>
         <button type="submit">Create</button>
-    </form>  
-    </>
+      </form>
+    </div>
   )
 }
 
-export default blogForm
+BlogForm.propTypes = {
+  createBlog: PropTypes.func.isRequired
+}
+
+export default BlogForm

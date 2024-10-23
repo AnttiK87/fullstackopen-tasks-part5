@@ -6,7 +6,10 @@
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-  }
+    margin-left: 20px;
+    margin-right: 20px;
+    display: inline-block;
+}
 
 .success {
     color: rgb(0, 165, 27);
@@ -52,4 +55,9 @@ button {
 
 .lastStyle {
     margin-bottom: 5px;
+}
+
+.delButton{
+    color: red;
+    font-style: bold;
 }
