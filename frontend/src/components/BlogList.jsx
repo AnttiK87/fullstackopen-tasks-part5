@@ -21,7 +21,7 @@ const BlogList = ({ user, blogs, handleLogout, addBlog, deleteBlog, updateBlog, 
       <ul>
         {blogs.sort((a, b) => b.likes - a.likes).map((blog, i) =>
           <Blog
-            key={i}
+            key={blog.id}
             blog={blog}
             deleteBlog={() => deleteBlog(blog.id)}
             addLike={() => updateBlog(blog.id)}
