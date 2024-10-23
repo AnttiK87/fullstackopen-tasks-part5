@@ -4,8 +4,6 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
   const [infoVisible, setInfoVisible] = useState(false)
   const [deleteVisible, setDeleteVisible] = useState(false)
 
-  const hideWhenVisible = { display: infoVisible ? 'none' : '' }
-  const showWhenVisible = { display: infoVisible ? '' : 'none' }
   const showDeleteButton = { display: deleteVisible ? '' : 'none' }
 
   const showInfo = () => {
@@ -22,23 +20,30 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
     }
   }
 
-  return (
-    <div>
-      <div className={'blogStyle'} style={hideWhenVisible}>
-        <b>Title: </b> {blog.title},  <b>Author: </b> {blog.author} <button onClick={showInfo} >View</button>
+  if (!infoVisible) {
+    return (
+      <div>
+        <div className='blogStyle'>
+          <b>Title: </b> {blog.title},  <b>Author: </b> {blog.author} <button onClick={showInfo} >View</button>
+        </div>
       </div>
-      <div className={'blogStyle'} style={showWhenVisible}>
-        <div><b>Title: </b> {blog.title}</div>
-        <div><b>Author: </b> {blog.author}</div>
-        <div><b>Link to blog: </b> <a href={blog.url}>{blog.url}</a></div>
-        <div><b>Likes: </b> {blog.likes}</div>
-        <div className={'lastStyle'}><b>Added by: </b> {blog.user.name}</div>
-        <div><button onClick={addLike}>Like</button><button onClick={showInfo} >Hide</button></div>
-        <div style={showDeleteButton}><button className={'delButton'} onClick={deleteBlog}>Delete</button></div>
+    )
+  } else {
+    return (
+      <div>
+        <div className='blogStyle togglableContent'>
+          <div><b>Title: </b> {blog.title}</div>
+          <div><b>Author: </b> {blog.author}</div>
+          <div><b>Link to blog: </b> <a href={blog.url}>{blog.url}</a></div>
+          <div><b>Likes: </b> {blog.likes}</div>
+          <div className={'lastStyle'}><b>Added by: </b> {blog.user.name}</div>
+          <div><button onClick={addLike}>Like</button><button onClick={showInfo} >Hide</button></div>
+          <div style={showDeleteButton}><button className={'delButton'} onClick={deleteBlog}>Delete</button></div>
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
+}
 
 export default Blog

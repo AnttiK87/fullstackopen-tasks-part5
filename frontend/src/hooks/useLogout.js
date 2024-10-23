@@ -1,7 +1,8 @@
 const useLogout = (showMessage, setUser) => {
   const handleLogout = async (user) => {
     window.localStorage.clear()
-    const messageLogout = `Logged out user ${user.name}`
+    const messageLogout = 'Logged out succesfully!'
+
     showMessage(messageLogout, 'success')
     setUser(null)
   }

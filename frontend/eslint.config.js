@@ -12,7 +12,12 @@ export default [
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        expect: 'readonly', // määrittele globaalit
+        test: 'readonly',
+        vi: 'readonly',
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -24,7 +29,7 @@ export default [
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      '@stylistic/js': stylisticJs
+      '@stylistic/js': stylisticJs,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -80,6 +85,16 @@ export default [
         'error',
         'never'
       ],
+    },
+  },
+  {
+    files: ['**/*.test.{js,ts,jsx,tsx}'],
+    languageOptions: {
+      globals: {
+        expect: 'readonly',
+        test: 'readonly',
+        vi: 'readonly',
+      },
     },
   },
 ]
