@@ -1,3 +1,6 @@
+//for rendering blogs
+
+//dependencies
 import { useState } from 'react'
 
 const Blog = ({ blog, addLike, deleteBlog, user }) => {
@@ -6,11 +9,14 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
 
   const showDeleteButton = { display: deleteVisible ? '' : 'none' }
 
+  //determine if view buton is pressed or not
   const showInfo = () => {
     if (!infoVisible){
       setInfoVisible(true)
       //console.log(blog.user.id)
       //console.log(user.id)
+
+      //If logged in user is creator of the blog show delete button
       if (blog.user.id === user.id) {
         setDeleteVisible(true)
       }
@@ -20,6 +26,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
     }
   }
 
+  //if view button isn't pressed then exteded info is not visible
   if (!infoVisible) {
     return (
       <div>
@@ -28,6 +35,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
         </div>
       </div>
     )
+  //if view button is pressed then exteded info is visible
   } else {
     return (
       <div>
@@ -46,4 +54,5 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
 
 }
 
+// exports
 export default Blog

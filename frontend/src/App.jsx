@@ -1,6 +1,10 @@
+//for rendering the main structure of the blog application
+
+//dependencies
 import { useState, useEffect, useRef } from 'react'
 
 import blogService from './services/blogs'
+import { addBlog, updateBlog, deleteBlog } from './services/blogsHelper'
 
 import useShowMessage from './hooks/showMessage'
 import useLogin from './hooks/useLogin'
@@ -10,25 +14,33 @@ import LoginFormContainer from './components/LoginFormContainer'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 
+
 const App = () => {
+  //states variables
   const [blogs, setBlogs] = useState([])
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  // for showing messages
   const { errorMessage, messageType, showMessage } = useShowMessage()
+
+  // for handling login and logout
   const { handleLogin } = useLogin(showMessage, setUser, setUsername, setPassword)
   const { handleLogout } = useLogout(showMessage, setUser)
 
+  // to control blogForm visibility
   const blogFormRef = useRef()
 
+  // fetching all blogs
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )
   }, [])
 
+  // check if a user is logged in
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
@@ -38,84 +50,42 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = (blogObject) => {
-    const messageBlogAdded = `Added a new blog ${blogObject.title} by ${blogObject.author} to the list!`
-
-    blogFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        showMessage(messageBlogAdded, 'success')
-      })
-      .catch(error => {
-        const errorMessage = error.response && error.response.data.error
-          ? error.response.data.error
-          : 'Failed to add blog'
-
-        showMessage(errorMessage, 'error')
-      })
+  // call function for adding blog
+  const handleAddBlog = (blogObject) => {
+    addBlog(blogObject, setBlogs, showMessage, blogFormRef)
   }
 
-  const updateBlog = id => {
-    const errorMessage = 'Something went wrong!'
-    const blog = blogs.find(b => b.id === id)
-    const changedBlog = { ...blog, likes: blog.likes + 1 }
-
-    blogService
-      .update(id, changedBlog)
-      .then(returnedBlog => {
-        //console.log(returnedBlog)
-        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-      })
-      .catch(error => {
-        showMessage(errorMessage, error)
-      })
+  // call function for updating blog
+  const handleUpdateBlog = (id) => {
+    updateBlog(blogs, setBlogs, showMessage, id)
   }
 
-  const deleteBlog = id => {
-    const blog = blogs.find(b => b.id === id)
-    const messageDeleted = `${blog.title} by ${blog.author} deleted from the list!`
-    const errorMessage = `${blog.title} by ${blog.author} was already deleted from the list!`
-
-    if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
-      blogService
-        .remove(id)
-        .then(() => {
-          setBlogs(blogs.filter(blog => blog.id !== id))
-          showMessage(messageDeleted, 'success')
-        })
-        .catch(error => {
-          if (error.response.status === 404) {
-            console.error('Failed to delete blog', error)
-            showMessage(errorMessage, 'error')
-            setBlogs(blogs.filter(blog => blog.id !== id))
-          } else {
-            //for other errors
-            showMessage('An unexpected error occurred', 'error')
-          }
-        })
-    }
+  // call function for deleting blog
+  const handleDeleteBlog = (id) => {
+    deleteBlog(blogs, setBlogs, showMessage, id)
   }
 
+  //Rendering the main structure
   return (
     <div>
       <h1>The List of Blogs</h1>
       <Notification message={errorMessage} type={messageType}/>
 
+      {/* Showing login screen if user is not set */}
       {!user && <LoginFormContainer handleLogin={handleLogin} />}
+      {/* Showing main screen if user is set */}
       {user && <BlogList
         user={user}
         blogs={blogs}
         handleLogout={handleLogout}
-        addBlog={addBlog}
-        deleteBlog={deleteBlog}
-        updateBlog={updateBlog}
+        addBlog={handleAddBlog}
+        deleteBlog={handleDeleteBlog}
+        updateBlog={handleUpdateBlog}
         blogFormRef={blogFormRef}
       />}
     </div>
   )
 }
 
-
+// exports
 export default App

@@ -1,3 +1,6 @@
+// for testing the frontend of the blog application
+
+//dependecies
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BlogForm from './BlogForm'

@@ -1,3 +1,6 @@
+// for testing the frontend of the blog application
+
+//dependecies
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe } from 'vitest'
@@ -38,27 +41,28 @@ describe('Blog component', () => {
   test('toggles visibility when "View" and "Hide" buttons are clicked', async () => {
     render(<Blog blog={blog} user={user} />)
 
-    // Aluksi tarkista, että yksityiskohtia ei näytetä
     expect(screen.queryByText(/Link to blog:/)).not.toBeInTheDocument()
     expect(screen.queryByText(/https:\/\/www\.testihöpöhöpöä\.com/)).not.toBeInTheDocument()
     expect(screen.queryByText(/Likes:/)).not.toBeInTheDocument()
     expect(screen.queryByText(/12/)).not.toBeInTheDocument()
 
-    // Klikkaa "View" -painiketta
+    // click of the "View" button
     const eventUser = userEvent.setup()
     const buttonView = screen.getByText('View')
     await eventUser.click(buttonView)
 
-    expect(screen.getByText(/Link to blog:/)).toBeInTheDocument() // Tarkista, että linkki näkyy
+    //checkt that info is visible
+    expect(screen.getByText(/Link to blog:/)).toBeInTheDocument()
     expect(screen.queryByText(/https:\/\/www\.testihöpöhöpöä\.com/)).toBeInTheDocument()
     expect(screen.queryByText(/Likes:/)).toBeInTheDocument()
     expect(screen.queryByText(/12/)).toBeInTheDocument()
 
-    // Klikkaa "Hide" -painiketta
+    // click of the "Hide" button
     const buttonHide = screen.getByText('Hide')
     await eventUser.click(buttonHide)
 
-    expect(screen.queryByText(/Link to blog:/)).not.toBeInTheDocument() // Tarkista, että linkki on piilotettu
+    // check that info is hidden
+    expect(screen.queryByText(/Link to blog:/)).not.toBeInTheDocument()
     expect(screen.queryByText(/https:\/\/www\.testihöpöhöpöä\.com/)).not.toBeInTheDocument()
     expect(screen.queryByText(/Likes:/)).not.toBeInTheDocument()
     expect(screen.queryByText(/12/)).not.toBeInTheDocument()
@@ -70,11 +74,9 @@ describe('Blog component', () => {
 
     render(<Blog blog={blog} user={user} addLike={addLike} />)
 
-    // Klikkaa "View" -painiketta
     const eventUser = userEvent.setup()
     const buttonView = screen.getByText('View')
     await eventUser.click(buttonView)
-
 
     const buttonLike = screen.getByText('Like')
     await eventUser.click(buttonLike)

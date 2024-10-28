@@ -1,3 +1,6 @@
+//eslint configurations
+
+//dependensies
 import globals from "globals"
 import pluginJs from "@eslint/js"
 import js from '@eslint/js'
@@ -5,7 +8,7 @@ import stylisticJs from '@stylistic/eslint-plugin-js'
 
 
 export default [
-  {languageOptions: { globals: globals.browser }},
+  // recommended rules for JavaScript
   pluginJs.configs.recommended,
   { ignores: ['playwright-report/**', 'test-results/**'] },
   { 
@@ -23,9 +26,12 @@ export default [
       },
     },
     plugins: {
+      // plugins for this configuration
       '@stylistic/js': stylisticJs,
     },
+    // rules for this configuration
     rules: {
+    // rules to improve code quality and consistency
     ...js.configs.recommended.rules,
     'indent': [
       'error',
@@ -59,6 +65,7 @@ export default [
       'error',
       2
     ],
+    // Stylistic rules
     '@stylistic/js/linebreak-style': [
       'error',
       'unix'
@@ -77,6 +84,7 @@ export default [
   files: ['**/*.test.{js,ts,jsx,tsx}'],
   languageOptions: {
     globals: {
+      // For preventing the testing commands to cause errors
       expect: 'readonly',
       test: 'readonly',
       vi: 'readonly',

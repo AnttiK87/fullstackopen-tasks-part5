@@ -1,5 +1,8 @@
+// E2Etestnig for blog application
+
+//dependencies
 const { test, expect, describe, beforeEach } = require('@playwright/test')
-const { loginWith, createNote, addLikes, likesToArray } = require('./helper')
+const { loginWith, createBlog, addLikes, likesToArray } = require('./helper')
 
 describe('Blog app', () => {
 
@@ -51,12 +54,12 @@ describe('Blog app', () => {
     })
 
     test('a new blog can be created', async ({ page }) => {
-      await createNote(page, 'a test blog created')
+      await createBlog(page, 'a test blog created')
       await expect(page.getByText('Title: a test blog created')).toBeVisible()
     })
 
     test('a new blog can be deleted', async ({ page }) => {
-      await createNote(page, 'a test blog to be deleted')
+      await createBlog(page, 'a test blog to be deleted')
 
       await page.getByText('Title: a test blog to be deleted')
         .getByRole('button', { name: 'View' }).click()
@@ -72,9 +75,9 @@ describe('Blog app', () => {
 
     describe('After blogs were added', () => {
       beforeEach(async ({ page }) => {
-        await createNote(page, 'first test blog created')
-        await createNote(page, 'second test blog created')
-        await createNote(page, 'Third test blog created')
+        await createBlog(page, 'first test blog created')
+        await createBlog(page, 'second test blog created')
+        await createBlog(page, 'Third test blog created')
       })
 
       test('like can be added to one of the blogs', async ({ page }) => {
@@ -107,7 +110,7 @@ describe('Blog app', () => {
   describe ('delete button shown to correct user', () => {
     beforeEach(async ({ page }) => {
       await loginWith(page, 'akortelai', 'salainen')
-      await createNote(page, 'a test for delete button')
+      await createBlog(page, 'a test for delete button')
     })
 
     test('delete button is visible for user who added the blog', async ({ page }) => {

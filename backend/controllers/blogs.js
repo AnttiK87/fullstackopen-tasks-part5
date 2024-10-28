@@ -16,9 +16,9 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.get('/:id', async (request, response) => {
   const blogs = await Blog.findById(request.params.id)
   if (blogs) {
-    response.json(blogs)
+    return response.json(blogs)
   } else {
-    response.status(404).end()
+    return response.status(404).end()
   }
 })
 
@@ -42,7 +42,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
     // Populate the user field before sending the response
     const populatedBlog = await Blog.findById(savedBlog._id).populate('user', { id: 1 })
 
-    response.status(201).json(populatedBlog)
+    return response.status(201).json(populatedBlog)
   } catch (error) {
     next(error)
   }
@@ -52,7 +52,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  // Creating new Person model for validating
+  // Creating new blog model for validating
   const validBlog = new Blog({
     title: body.title,
     author: body.author,
@@ -74,7 +74,7 @@ blogsRouter.put('/:id', async (request, response) => {
   }
 
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { name: 1 })
-  response.json(updatedBlog)
+  return response.json(updatedBlog)
 })
 
 // delete blog

@@ -1,3 +1,6 @@
+//for rendering form to add blogs
+
+//dependencies
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
@@ -6,6 +9,7 @@ const BlogForm = ({ createBlog }) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+  //function for sending form content and calling creteBlog
   const addBlog = (event) => {
     event.preventDefault()
 
@@ -20,6 +24,7 @@ const BlogForm = ({ createBlog }) => {
     setUrl('')
   }
 
+  // rendering the form
   return (
     <div>
       <h3>Add new blog to the list</h3>
@@ -69,8 +74,10 @@ const BlogForm = ({ createBlog }) => {
   )
 }
 
+// setting the prop types (createBlog is reguired an it must be a function)
 BlogForm.propTypes = {
   createBlog: PropTypes.func.isRequired
 }
 
+// exports
 export default BlogForm

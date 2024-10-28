@@ -1,5 +1,9 @@
+// Helper file for managing E2E tests
+
+// Dependancies
 const { expect } = require('@playwright/test')
 
+//Helper fuction for loggin in
 const loginWith = async (page, username, password)  => {
   await page.getByRole('button', { name: 'login' }).click()
   await page.getByTestId('username').fill(username)
@@ -7,7 +11,8 @@ const loginWith = async (page, username, password)  => {
   await page.getByRole('button', { name: 'login' }).click()
 }
 
-const createNote = async (page, title) => {
+//Helper fuction for creating blog
+const createBlog = async (page, title) => {
   await page.getByRole('button', { name: 'Add new blog' }).click()
   await page.getByTestId('title').fill(title)
   await page.getByTestId('author').fill('playwright')
@@ -17,6 +22,7 @@ const createNote = async (page, title) => {
   await page.waitForSelector(`text=${title}`)
 }
 
+//Helper fuction for adding likes to a blog
 const addLikes = async (page, title, count) => {
   await page.getByText(`Title: ${title}`)
     .getByRole('button', { name: 'View' }).click()
@@ -28,6 +34,7 @@ const addLikes = async (page, title, count) => {
   await page.getByRole('button', { name: 'Hide' }).click()
 }
 
+//Helper fuction for checking the correct order of the blogs
 const likesToArray = async (page) => {
   const blogElements = page.locator('.blogStyle')
   const count = await blogElements.count()
@@ -56,4 +63,4 @@ const likesToArray = async (page) => {
   return likesArray
 }
 
-export { loginWith, createNote, addLikes, likesToArray }
+export { loginWith, createBlog, addLikes, likesToArray }
