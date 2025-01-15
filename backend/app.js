@@ -19,7 +19,8 @@ mongoose.set('strictQuery', false)
 // Connection to MongoDB
 logger.info('connecting to', config.MONGODB_URI)
 
-mongoose.connect(config.MONGODB_URI)
+mongoose
+  .connect(config.MONGODB_URI)
   .then(() => {
     logger.info('connected to MongoDB')
   })
@@ -42,6 +43,7 @@ app.use('/api/login', loginRouter)
 
 // Setting route for testing
 if (process.env.NODE_ENV === 'test') {
+  console.log('this can be used now')
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)
 }
